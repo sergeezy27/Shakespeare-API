@@ -1,0 +1,71 @@
+/****************************************************************************
+Main Components
+****************************************************************************/
+
+body {
+  background-color: #f9f9f9;
+  font-family: serif;
+  min-width: 1000px;
+}
+
+/****************************************************************************
+SSI Specific
+****************************************************************************/
+
+header, #header {
+  height:90px;
+  padding: 10px;
+  margin: 0px auto;
+  width: 80%;
+  border: none;
+  border-bottom: 4px solid #961c1a;
+ /*box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.2);*/
+}
+
+title, #title {
+  margin: 35px 10px;
+  font-family: fantasy;
+  font-weight: bolder;
+  font-size: 35pt;
+}
+
+ul.head-nav {
+  list-style-type: none;
+  margin: 35px 15px;
+  padding: 0;
+  overflow: hidden;
+
+  font-weight: 400;
+  font-size: 20pt;
+}
+
+ul.head-nav li {
+  float: right;
+}
+
+ul.head-nav a {
+  display: block;
+  color: #1f1f1f;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+ul.head-nav a:hover {
+  color: #961c1a;
+  transition: color 0.3s ease-in-out;
+}
+
+/****************************************************************************
+Styles for Columns
+****************************************************************************/
+
+div.column_50 {
+  box-sizing: border-box; 
+                            
+  float: left;   
+  width: 50%;
+        
+  margin: 0px;
+  padding: 0px; 
+}
