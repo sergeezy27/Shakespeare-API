@@ -11,6 +11,38 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  overflow: hidden;
+}
+
+/****************************************************************************
+Login Page
+****************************************************************************/
+
+.login-form {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: left;
+}
+.login-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.login-form button {
+  background-color: #6d8e72;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.login-form button:hover {
+  background-color: #5a735d;
 }
 
 /****************************************************************************
@@ -27,7 +59,7 @@ SSI Specific
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  padding: 0 15px 8px;
+  padding: 0 26px 8px;
   box-sizing: border-box;
 }
 
@@ -74,13 +106,41 @@ div.main-wrapper {
   margin: 0 auto;
 }
 
+.shakespeare-svg {
+  transform: scaleX(-1);
+  display: block;
+  min-width: 600px;
+  width: 48vw;
+  height: auto;
+  position: absolute;
+  left: -2%;
+  top: 16%;
+  z-index: -1;
+}
+
+.content {
+  margin-left: 50%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
 /* Footer */
 .footer, #footer {
-  height: 10%;
+  height: 5%;
+  box-sizing: border-box;
   padding: 10px;
   margin: 0 auto;
-  width: 80%;
+  width: 100%;
   text-align: center;
+  background: rgba(109, 142, 114, 0.1);
+  backdrop-filter: blur(5px);
+  border-top: 2px solid rgba(109, 142, 114, 0.3);
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#copyright {
+  font-weight: 400;
+  font-size:16px;
 }
 
 /****************************************************************************
