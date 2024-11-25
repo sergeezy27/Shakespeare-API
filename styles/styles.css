@@ -6,66 +6,89 @@ body {
   background-color: #f9f9f9;
   font-family: serif;
   min-width: 1000px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 /****************************************************************************
 SSI Specific
 ****************************************************************************/
 
-header, #header {
-  height:90px;
-  padding: 10px;
-  margin: 0px auto;
+/* Header */
+.header, #header {
+  height: 15%;
+  padding: 0;
+  margin: 0 auto;
   width: 80%;
-  border: none;
-  border-bottom: 4px solid #961c1a;
- /*box-shadow: 0 4px 4px -2px rgba(0, 0, 0, 0.2);*/
+  border-bottom: 4px solid #6d8e72;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 15px 8px;
+  box-sizing: border-box;
 }
 
-title, #title {
-  margin: 35px 10px;
+/* Title */
+.title, #title {
   font-family: fantasy;
   font-weight: bolder;
   font-size: 35pt;
+  margin: 0;
 }
 
+/* Navigation */
 ul.head-nav {
   list-style-type: none;
-  margin: 35px 15px;
+  margin: 0;
   padding: 0;
-  overflow: hidden;
-
   font-weight: 400;
   font-size: 20pt;
+  display: flex;
+  gap: 10px;
 }
 
 ul.head-nav li {
-  float: right;
+  margin: 0;
 }
 
 ul.head-nav a {
   display: block;
   color: #1f1f1f;
   text-align: center;
-  padding: 14px 16px;
+  padding: 5px 10px;
   text-decoration: none;
 }
 
 ul.head-nav a:hover {
-  color: #961c1a;
+  color: #f1a195;
   transition: color 0.3s ease-in-out;
 }
 
+/* Main Wrapper */
+div.main-wrapper {
+  flex: 1;
+  width: 80%;
+  margin: 0 auto;
+}
+
+/* Footer */
+.footer, #footer {
+  height: 10%;
+  padding: 10px;
+  margin: 0 auto;
+  width: 80%;
+  text-align: center;
+}
+
 /****************************************************************************
-Styles for Columns
+W3 Schools
 ****************************************************************************/
 
-div.column_50 {
-  box-sizing: border-box; 
-                            
-  float: left;   
-  width: 50%;
-        
-  margin: 0px;
-  padding: 0px; 
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
 }

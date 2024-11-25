@@ -2,6 +2,7 @@
 if ($security) {
     require "security.php";
 }
+require realpath(__DIR__ . '/../init.php');
 ?>
 
 <!DOCTYPE html>
@@ -18,12 +19,11 @@ if ($security) {
 </head>
 <body>
     <div id="header" class="header">
-        <div class="column_50"> <div id="title" class="title">Shakespeare API</div></div>
-        <div class="column_50"> 
-            <ul class="head-nav">
-                <li><a href="login.php">Login</a></li>
-                <li><a href="#">Analytics</a></li>
-                <li><a href="index.php">Home</a></li>
-            </ul>
-        </div>
+        <div id="title" class="title">Shakespeare API</div>
+        <ul class="head-nav">
+            <li><a href="login.php">Login</a></li>
+            <li><a href="#">Analytics</a></li>
+            <li><a href="index.php">Home</a></li>
+        </ul>
     </div>
+    <div class="main-wrapper">
