@@ -21,9 +21,9 @@ require realpath(__DIR__ . '/../init.php');
     <div id="header" class="header">
         <div id="title" class="title">Shakespeare API</div>
         <ul class="head-nav">
-            <li><a href="login.php">Login</a></li>
+            <li><a href="index.php">Login</a></li>
             <li><a href="#">Analytics</a></li>
-            <li><a href="index.php">Home</a></li>
+            <li><a href="home.php">Home</a></li>
         </ul>
     </div>
     <div class="main-wrapper">
