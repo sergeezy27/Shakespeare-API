@@ -26,8 +26,70 @@ body {
 }
 
 /****************************************************************************
-Login Page
+Login and Sign Up
 ****************************************************************************/
+
+.notice {
+  font-size: 20pt;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.account-form {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.account-form label {
+  font-size: 13pt;
+  margin-left: 5px;
+  color: #1f1f1f;
+}
+
+.account-form input {
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 12pt;
+}
+
+.account-form input:focus {
+  outline: none;
+  border-color: #6d8e72;
+  box-shadow: 0 0 5px rgba(109, 142, 114, 0.5);
+}
+
+.account-form .checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 2px;
+}
+
+.account-form input[type="checkbox"] {
+  margin: 0;
+  width: auto;
+}
+
+.account-form button {
+  background-color: #6d8e72;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13pt;
+}
+
+.account-form button:hover {
+  background-color: #5a735d;
+}
 
 .login-content {
   float: right;
@@ -40,67 +102,23 @@ Login Page
   margin-right: 20px;
 }
 
-.notice {
-  font-size: 20pt;
-  font-weight: 500;
+.signup-prompt {
   text-align: center;
-  margin-bottom: 20px;
+  font-size: 11pt;
+  margin-top: 15px;
 }
 
-.login-form {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 300px;
-  text-align: left;
+.signup-link {
+  color: #6d8e72;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s, transform 0.3s ease;
 }
 
-.login-form label {
-  font-size: 13pt;
-  margin-left: 5px;
-  color: #1f1f1f;
-}
-
-.login-form input {
-  width: 90%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 12pt;
-}
-
-.login-form input:focus {
-  outline: none;
-  border-color: #6d8e72;
-  box-shadow: 0 0 5px rgba(109, 142, 114, 0.5);
-}
-
-.login-form .checkbox-group {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  gap: 2px;
-}
-
-.login-form input[type="checkbox"] {
-  margin: 0;
-  width: auto;
-}
-
-.login-form button {
-  background-color: #6d8e72;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 13pt;
-}
-
-.login-form button:hover {
-  background-color: #5a735d;
+.signup-link:hover {
+  color: #f1a195;
+  text-decoration: underline;
+  transform: scale(1.05);
 }
 
 .shakespeare-svg {

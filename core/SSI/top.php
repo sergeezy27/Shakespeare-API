@@ -2,7 +2,7 @@
 if ($security) {
     require "security.php";
 }
-require realpath(__DIR__ . '/../init.php');
+require_once __DIR__ . "/../init.php";
 ?>
 
 <!DOCTYPE html>
