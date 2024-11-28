@@ -2,6 +2,8 @@
 $title = "Shakespeare Account";
 $security = false;
 $wrapper_class = "two-column-layout";
+$nav_links = ["Login" => "index.php"];
+
 require "core/SSI/top.php";
 
 $task = $get_post["task"];

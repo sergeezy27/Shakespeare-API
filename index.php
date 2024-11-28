@@ -1,6 +1,8 @@
 <? 
 $title = "Shakespeare Login";
 $security = false;
+$nav_links = ["Sign Up" => "account.php"];
+
 require "core/SSI/top.php";
 
 $task = $get_post["task"];
@@ -34,7 +36,7 @@ switch($task) {
         $login->values["login_record_ip_address"] = $_SERVER["REMOTE_ADDR"];
         $login->save();
         
-        // temp
+        // TODO: Remember me logic
         // if(!isset($_COOKIE["first_load"])) {
         //     setcookie("first_load", $time_stamp, $expires_timestamp);
         // }
@@ -44,6 +46,10 @@ switch($task) {
         exit;
         break;
        
+    case "logout":
+        // TODO: Logout logic
+        break;
+
     default:
 }
 ?>
