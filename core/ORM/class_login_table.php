@@ -5,7 +5,7 @@ class login extends data_operations {
   // Constructor - must have same name as class.
   function login() {
 
-    $table = USER_TABLE;
+    $table = LOGIN_TABLE;
     $id_field = "login_record_id";
     $id_field_is_ai = false;
     $fields = array(

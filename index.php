@@ -23,8 +23,25 @@ switch($task) {
         }
         $message = "";
 
-        // TODO: Login logic
+        $now = time();
+        $login = new login();
 
+        $record_id = hash("md5", $user->values["user_email"] . $now);
+        $login->set_id_value($record_id);
+        $login->values["login_user_id"] = $user->get_id_value();
+        $login->values["login_record_created"] = lib::nice_date($now, "mysql_timestamp");
+        $login->values["login_record_updated"] = lib::nice_date($now, "mysql_timestamp");
+        $login->values["login_record_ip_address"] = $_SERVER["REMOTE_ADDR"];
+        $login->save();
+        
+        // temp
+        // if(!isset($_COOKIE["first_load"])) {
+        //     setcookie("first_load", $time_stamp, $expires_timestamp);
+        // }
+
+        $_SESSION["user_id"] = $user->get_id_value();
+        header ("Location: home.php");
+        exit;
         break;
        
     default:
