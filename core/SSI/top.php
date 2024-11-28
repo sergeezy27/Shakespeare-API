@@ -26,4 +26,4 @@ require_once __DIR__ . "/../init.php";
             <li><a href="home.php">Home</a></li>
         </ul>
     </div>
-    <div class="main-wrapper">
+    <div class="main-wrapper<?= isset($wrapper_class) ? ' ' . $wrapper_class : ''; ?>">
