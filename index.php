@@ -1,56 +1,84 @@
 <? 
 $title = "Shakespeare Login";
 $security = false;
-$nav_links = ["Sign Up" => "account.php"];
+$nav_links = ["Sign In" => "index.php", "Sign Up" => "account.php"];
 
 require "core/SSI/top.php";
 
 $task = $get_post["task"];
-$user = new user();
+$login = new login();
+
+// Check if login cookie exists and if user exists
+$auto_login = false;
+if (isset($_COOKIE["log_id"])) {
+    $login->load($_COOKIE["log_id"]);
+    if ($login->get_id_value()) {
+        $user_id = $login->values["login_user_id"];
+        $user = new user();
+        $user->load($user_id);
+        if($user->get_id_value()) {
+            $user_email = $user->values["user_email"];
+            $auto_login = true;
+        }
+    }
+}
 
 switch($task) {
 
     case "login":
-
-        $user->load($get_post["user_email"], "user_email");
-
-        // Seperate in case I need to trouble shoot, both errors can be combined with an or statement
-        if(empty($user->get_id_value())) {
-            $message = "Unable to log in. Please check your email and password, then try again.";
-            break;
-        }
-        if(!password_verify($get_post["user_password"], $user->values["user_password"])) {
-            $message = "Unable to log in. Please check your email and password, then try again.";
-            break;
-        }
-        $message = "";
-
-        $now = time();
-        $login = new login();
-
-        $record_id = hash("md5", $user->values["user_email"] . $now);
-        $login->set_id_value($record_id);
-        $login->values["login_user_id"] = $user->get_id_value();
-        $login->values["login_record_created"] = lib::nice_date($now, "mysql_timestamp");
-        $login->values["login_record_updated"] = lib::nice_date($now, "mysql_timestamp");
-        $login->values["login_record_ip_address"] = $_SERVER["REMOTE_ADDR"];
-        $login->save();
         
-        // TODO: Remember me logic
-        // if(!isset($_COOKIE["first_load"])) {
-        //     setcookie("first_load", $time_stamp, $expires_timestamp);
-        // }
+        if($auto_login) {
+            $login->values["login_updated"] = lib::nice_date("now", "mysql_timestamp");
+            $login->save();
+            $_SESSION["user_id"] = $user->get_id_value();
+            header("Location: home.php");
+            exit;
+            break;
+        }
 
+        $message = $login->login_user($get_post["user_email"], $get_post["user_password"], isset($get_post["remember_me"]));
+
+        if ($message) {
+            break;
+        }
+
+        $user = new user();
+        $user->load($get_post["user_email"], "user_email");
         $_SESSION["user_id"] = $user->get_id_value();
-        header ("Location: home.php");
+        
+        header("Location: home.php");
         exit;
         break;
        
     case "logout":
-        // TODO: Logout logic
+        $was_logged_in = isset($_SESSION["user_id"]);
+
+        if (isset($_COOKIE["log_id"])) {
+            setcookie("log_id", "", time() - 3600);
+        }
+
+        session_unset();
+        session_destroy();
+
+        if ($was_logged_in) {
+            ?>
+            <div class="logout-message">
+                You have been successfully logged out. <br>
+                Thank you for using Shakespeare API. <br>
+                <a href="index.php" class="general-link">Log back in</a>
+            </div>
+            <?
+            require "core/SSI/bottom.php";
+            exit;
+        }
         break;
 
     default:
+        // If already signed in
+        if(isset($_SESSION["user_id"])) {
+            header("Location: home.php");
+            exit;
+        }
 }
 ?>
 
@@ -70,19 +98,20 @@ switch($task) {
         <input type="hidden" name="task" value="login">
 
         <label for="user_email">Email:</label>
-        <input type="email" name="user_email" id="user_email" value="">
+        <input type="email" name="user_email" id="user_email" value="<?= $auto_login ? $user_email : ''; ?>" <?= $auto_login ? 'readonly' : ''; ?>>
 
         <label for="user_password">Password:</label>
-        <input type="password" name="user_password" id="user_password" value="">
+        <input type="password" name="user_password" id="user_password" value="<?= $auto_login ? '********' : ''; ?>" <?= $auto_login ? 'disabled' : ''; ?>>
 
         <div class="checkbox-group">
-            <input type="checkbox" name="remember_me" id="remember_me" value="">
+            <input type="checkbox" name="remember_me" id="remember_me" value="yes" 
+                <?= $auto_login ? 'checked disabled' : ''; ?>>
             <label for="remember_me">Remember me?</label>
         </div>
 
         <button type="submit">Login</button>
     </form>
-    <div class="signup-prompt">Don't have an account? <a href="account.php" class="signup-link">Sign up here</a></div>
+    <div class="signup-prompt">Don't have an account? <a href="account.php" class="general-link">Sign up here</a></div>
 </div>
 
 <?

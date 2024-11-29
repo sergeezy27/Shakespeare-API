@@ -7,5 +7,8 @@ require "core/SSI/top.php";
 
 // TODO: Home page explanations, plus analytics page link and edit
 
+//temp get rid of the session:
+//session_unset();
+
 require "core/SSI/bottom.php";
 ?>

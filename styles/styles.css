@@ -24,6 +24,19 @@ body {
   font-weight: bold;
 }
 
+.general-link {
+  color: #6d8e72;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s, transform 0.3s ease;
+}
+
+.general-link:hover {
+  color: #f1a195;
+  text-decoration: underline;
+  transform: scale(1.05);
+}
+
 /****************************************************************************
 Login and Sign Up
 ****************************************************************************/
@@ -106,17 +119,14 @@ Login and Sign Up
   margin-top: 15px;
 }
 
-.signup-link {
-  color: #6d8e72;
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s, transform 0.3s ease;
-}
-
-.signup-link:hover {
-  color: #f1a195;
-  text-decoration: underline;
-  transform: scale(1.05);
+.logout-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 26pt;
+  text-align: center;
+  font-weight: 500;
 }
 
 .shakespeare-svg {
@@ -158,6 +168,7 @@ SSI Specific
 /* Title */
 .title, #title {
   font-family: fantasy;
+  font-style: italic;
   font-weight: bolder;
   font-size: 35pt;
   margin: 0;
@@ -168,7 +179,7 @@ ul.head-nav {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 20pt;
   display: flex;
   gap: 10px;

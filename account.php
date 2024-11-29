@@ -40,7 +40,7 @@ switch($task) {
 
     case "delete":
 
-        // TODO: Delete logic
+        // TODO: Delete logic, also choose what happens in the database if user is deleted
         break;
 
     case "edit":
