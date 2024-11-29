@@ -90,7 +90,7 @@ switch($task) {
         To access the features of the Shakespeare API, you must log in first. Please enter your credentials below.
     </div>
 
-    <? if ($message) { ?>
+    <? if($message) { ?>
         <div class="error"><?=$message?></div><br>
     <? } ?>
 

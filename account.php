@@ -2,12 +2,13 @@
 $title = "Shakespeare Account";
 $security = false;
 $wrapper_class = "two-column-layout";
-$nav_links = ["Login" => "index.php"];
+$nav_links = ["Home" => "home.php"];
 
 require "core/SSI/top.php";
 
 $task = $get_post["task"];
-$user = new user();
+$user_id = "";
+$notice = "Fill out the form below to sign up for access to the Shakespeare API.";
 
 switch($task) {
 
@@ -29,13 +30,13 @@ switch($task) {
         $user->values["user_time_created"] = lib::nice_date("now", "mysql_timestamp");
         $user->save();
       
-        // TODO: Login and redirect
-
-    //   $usr->load($usr->values['usr_email'], 'usr_email');
-    //   $redirect = "page_thank_you.php?id=".$usr->get_id_value();
-
-    //   header ("Location: ".$redirect);
-    //   exit;
+        // Login after sign-up
+        $login = new login();
+        $login->login_user($get_post["user_email"], $get_post["user_password"], false);
+        $user->load($get_post["user_email"], "user_email");
+        $_SESSION["user_id"] = $user->get_id_value();
+        header("Location: home.php");
+        exit;
         break;
 
     case "delete":
@@ -45,20 +46,70 @@ switch($task) {
 
     case "edit":
 
-        // TODO: Edit logic
+        if (!isset($_SESSION["user_id"])) {
+            header("Location: index.php");
+            exit;
+        }
+        $user = new user();
+        $user->load($_SESSION["user_id"]);
+
+        if(empty($user->get_id_value())) {
+            header("Location: index.php");
+            exit;
+        }
+
+        $notice = "Fill out the form below to update your profile information for the Shakespeare API.";
+        $user_id = $user->get_id_value();
+        $user_fname = $user->values["user_fname"];
+        $user_lname = $user->values["user_lname"];
+        $user_email = $user->values["user_email"];
+        $user_password = "";
+        
         break;
 
     default:
+        // If already signed in
+        if(isset($_SESSION["user_id"])) {
+            header("Location: home.php");
+            exit;
+        }
 }
 ?>
+
+<script>
+    function togglePasswordFields() {
+        let checkbox = document.getElementById("change_password");
+        let passwordSection = document.getElementById("password-section");
+        let passwordField = document.getElementById("user_password");
+        let confirmPasswordField = document.getElementById("password_validate");
+
+        if (checkbox.checked) {
+            passwordSection.classList.add("open");
+        } else {
+            passwordSection.classList.remove("open");
+            passwordField.value = '';
+            confirmPasswordField.value = '';
+        }
+
+    function confirmDelete() {
+        let confirmed = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+        if (confirmed) {
+            let form = document.querySelector('.account-form');
+            let taskInput = form.querySelector('input[name="task"]');
+            taskInput.value = "delete";
+            form.submit();
+        }
+    }
+}
+</script>
 
 <div class="left-column" style="flex-direction: column; align-items: center;">
 
     <div class="notice" style="margin-top: 20px">
-        Fill out the form below to sign up for access to the Shakespeare API.
+        <?= $notice ?>
     </div>
 
-    <? if ($message) { ?>
+    <? if($message) { ?>
         <div class="error"><?=$message?></div><br>
     <? } ?>
 
@@ -67,28 +118,36 @@ switch($task) {
         <input type="hidden" name="user_id" value="<?=$user_id?>">
 
         <label for="user_fname">First Name:</label>
-        <input type="text" name="user_fname" id="user_fname" value="">
+        <input type="text" name="user_fname" id="user_fname" value="<?=$user_fname?>">
 
         <label for="user_lname">Last Name:</label>
-        <input type="text" name="user_lname" id="user_lname" value="">
+        <input type="text" name="user_lname" id="user_lname" value="<?=$user_lname?>">
 
         <label for="user_email">Email:</label>
-        <input type="email" name="user_email" id="user_email" value="">
+        <input type="email" name="user_email" id="user_email" value="<?=$user_email?>">
 
-        <? if (!empty($user->get_id_value())) { ?>
+        <? if(!empty($user_id)) { ?>
             <div class="checkbox-group">
-                <input type="checkbox" name="change_password" id="change_password" value="">
+                <input type="checkbox" name="change_password" id="change_password" value="yes" onclick="togglePasswordFields()">
                 <label for="change_password">Change password?</label>
             </div>
         <? } ?>
 
-        <label for="user_password">Password:</label>
-        <input type="password" name="user_password" id="user_password" value="">
+        <div id="password-section" class="password-section<?echo (empty($user_id)) ? " open" : "";?>">
+            <label for="user_password">Password:</label>
+            <input type="password" name="user_password" id="user_password" value="">
 
-        <label for="password_validate">Confirm Password:</label>
-        <input type="password" name="password_validate" id="password_validate" value="">
-
-        <button type="submit">Create Account</button>
+            <label for="password_validate">Confirm Password:</label>
+            <input type="password" name="password_validate" id="password_validate" value="">
+        </div>
+        <? if(!empty($user_id)) { ?>
+            <div class="form-actions">
+                <button type="submit">Save Changes</button>
+                <button type="button" class="delete-button" onclick="confirmDelete()">Delete Account</button>
+            </div>
+        <? }else { ?>
+            <button type="submit">Create Account</button>
+        <? } ?>
     </form>
 </div>
 <div class="right-column" style="align-items: center; height: 100%;">

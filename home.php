@@ -1,7 +1,7 @@
 <? 
 $title = "Shakespeare API";
 $security = true;
-$nav_links = ["Log Out" => "index.php?task=logout", "Edit" => "account.php", "Analytics" => "#"];
+$nav_links = ["Log Out" => "index.php?task=logout", "Edit" => "account.php?task=edit", "Analytics" => "#"];
 
 require "core/SSI/top.php";
 

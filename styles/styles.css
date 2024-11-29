@@ -147,6 +147,31 @@ Login and Sign Up
   max-width: 1750px;
 }
 
+.account-form .delete-button {
+  margin-left: 5px;
+  background-color: #ff6b6b;
+}
+
+.account-form .delete-button:hover {
+  background-color: #d9534f;
+}
+
+/* Password field animation */
+
+.password-section {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out;
+}
+
+.password-section.open {
+  max-height: 100vh;
+}
+
+.account-form {
+  transition: height 0.5s ease-in-out;
+}
+
 /****************************************************************************
 SSI Specific
 ****************************************************************************/
