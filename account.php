@@ -15,6 +15,7 @@ switch($task) {
     case "save":
         $user = new user();
         $user->load_from_form_submit();
+        $options = ["cost" => 10];
 
         // Editing existing user
         if(!empty($user->get_id_value())) {
@@ -33,7 +34,21 @@ switch($task) {
                 exit;
                 break;
             }
-            // TODO: update logic
+
+            // Populating existing fields, otherwise save() will update them to ''
+            $old_user = new user();
+            $old_user->load($user->get_id_value());
+            
+            if($get_post["change_password"] == "yes") {
+                $user->values["user_password"] = password_hash($user->values["user_password"], PASSWORD_BCRYPT, $options);
+            }else {
+                $user->values["user_password"] = $old_user->values["user_password"];
+            }
+            $user->values["user_time_created"] = $old_user->values["user_time_created"];
+            $user->values["user_ip_address"] = $old_user->values["user_ip_address"];
+            $user->values["user_api_token"] = $old_user->values["user_api_token"];
+            $user->save();
+
             header("Location: home.php");
             exit;
             break;
@@ -41,13 +56,12 @@ switch($task) {
         // End of editing, back to saving a new user
 
         // Validation
-        $validation = $user->validate($get_post['password_validate'], "check");
+        $validation = $user->validate($get_post['password_validate']);
         if ($validation !== true) {
             $message = $validation;
             break;
         }
 
-        $options = ["cost" => 10];
         $user->values["user_password"] = password_hash($user->values["user_password"], PASSWORD_BCRYPT, $options);
         $user->values["user_ip_address"] = $_SERVER["REMOTE_ADDR"];
         $user->values["user_api_token"] = hash("sha256", $user->values["user_email"] . time());

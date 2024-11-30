@@ -21,7 +21,7 @@ class user extends data_operations {
     parent::data_operations($table, $id_field, $id_field_is_ai, $fields);
   }
 
-  public function validate($password_validation = false, $duplicate_email = "") {
+  public function validate($password_validation = false) {
     // Trim spaces at the front and end, also I'm allowing the use of spaces in the password (except if it is only space characters)
     $this->values['user_fname'] = trim($this->values['user_fname']);
     $this->values['user_lname'] = trim($this->values['user_lname']);
@@ -34,7 +34,7 @@ class user extends data_operations {
 
     // Check if the first and last name are at least 2 characters
     if (strlen($this->values['user_fname']) < 2 || strlen($this->values['user_lname']) < 2) {
-        return "Your first and last name must be at least 2 characters long.";
+      return "Your first and last name must be at least 2 characters long.";
     }
 
     // Check if email format is valid
@@ -43,12 +43,14 @@ class user extends data_operations {
     }
 
     // Check if the email already exists in the database
-    if($duplicate_email == "check") {
-      $validation = new user();
-      $validation->load($this->values['user_email'], 'user_email');
-      if (!empty($validation->get_id_value())) {
-          return "User with this email already exists. Please use a different email address.";
-      }
+    $validation = new user();
+    $validation->load($this->values['user_email'], 'user_email');
+
+    $existing_id = $validation->get_id_value();
+    $current_id = $this->get_id_value();
+
+    if ((empty($current_id) && !empty($existing_id)) || (!empty($current_id) && !empty($existing_id) && ($existing_id !== $current_id))) {
+      return "User with this email already exists. Please use a different email address.";
     }
 
     if($password_validation !== false) {

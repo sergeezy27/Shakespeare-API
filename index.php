@@ -74,11 +74,24 @@ switch($task) {
         break;
 
     default:
-        // If already signed in
-        if(isset($_SESSION["user_id"])) {
+        if (isset($_SESSION["user_id"])) {
+            $user = new user();
+            $user->load($_SESSION["user_id"]);
+        
+        // Check if user ID exists in the database
+        if (!empty($user->get_id_value())) {
             header("Location: home.php");
             exit;
+        } else {
+            // User ID doesn't exist in the database, log them out
+            if (isset($_COOKIE["log_id"])) {
+                setcookie("log_id", "", time() - 3600);
+            }
+            session_unset();
+            session_destroy();
+            break;
         }
+    }
 }
 ?>
 
