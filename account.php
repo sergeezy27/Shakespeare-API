@@ -16,8 +16,32 @@ switch($task) {
         $user = new user();
         $user->load_from_form_submit();
 
+        // Editing existing user
+        if(!empty($user->get_id_value())) {
+
+            // If the user auto completes the email, it also fills out the password field even when hidden
+            if(trim($get_post["user_password"]) && !trim($get_post["password_validate"])) {
+                header("Location: account.php?task=edit&err=Something went wrong, please don't auto complete the email field.");
+                exit;
+                break;
+            }
+            
+            $validation = $get_post["change_password"] == "yes" ? $user->validate($get_post['password_validate']) : $user->validate();
+
+            if($validation !== true) {
+                header("Location: account.php?task=edit&err=" . $validation);
+                exit;
+                break;
+            }
+            // TODO: update logic
+            header("Location: home.php");
+            exit;
+            break;
+        }
+        // End of editing, back to saving a new user
+
         // Validation
-        $validation = $user->validate();
+        $validation = $user->validate($get_post['password_validate'], "check");
         if ($validation !== true) {
             $message = $validation;
             break;
@@ -64,6 +88,7 @@ switch($task) {
         $user_lname = $user->values["user_lname"];
         $user_email = $user->values["user_email"];
         $user_password = "";
+        $message = $get_post["err"];
         
         break;
 
