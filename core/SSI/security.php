@@ -10,4 +10,5 @@ if(empty($user->get_id_value())) {
     header("Location: index.php");
     exit;
 }
+$nav_links = ["Home" => "home.php", "Analytics" => "analytics.php", "History" => "history.php"];
 ?>

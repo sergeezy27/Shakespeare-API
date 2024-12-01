@@ -2,9 +2,9 @@
 $title = "Shakespeare Account";
 $security = false;
 $wrapper_class = "two-column-layout";
-$nav_links = ["Home" => "home.php"];
+$nav_links = ["Sign In" => "index.php", "Sign Up" => "account.php"];
 
-require "core/SSI/top.php";
+require "core/init.php";
 
 $task = $get_post["task"];
 $user_id = "";
@@ -73,6 +73,7 @@ switch($task) {
         $login->login_user($get_post["user_email"], $get_post["user_password"], false);
         $user->load($get_post["user_email"], "user_email");
         $_SESSION["user_id"] = $user->get_id_value();
+        $_SESSION["user_email"] = $user->values["user_email"];
         header("Location: home.php");
         exit;
         break;
@@ -84,25 +85,18 @@ switch($task) {
 
     case "edit":
 
-        if (!isset($_SESSION["user_id"])) {
-            header("Location: index.php");
-            exit;
-        }
+        $security = true;
+
         $user = new user();
         $user->load($_SESSION["user_id"]);
-
-        if(empty($user->get_id_value())) {
-            header("Location: index.php");
-            exit;
-        }
-
         $notice = "Fill out the form below to update your profile information for the Shakespeare API.";
+        $message = $get_post["err"];
+        
         $user_id = $user->get_id_value();
         $user_fname = $user->values["user_fname"];
         $user_lname = $user->values["user_lname"];
         $user_email = $user->values["user_email"];
         $user_password = "";
-        $message = $get_post["err"];
         
         break;
 
@@ -113,6 +107,8 @@ switch($task) {
             exit;
         }
 }
+
+require "core/SSI/top.php";
 ?>
 
 <script>

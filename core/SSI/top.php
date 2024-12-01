@@ -2,6 +2,7 @@
 require_once __DIR__ . "/../init.php";
 if ($security) {
     require "security.php";
+    $user_email = $_SESSION['user_email'];
 }
 ?>
 
@@ -22,10 +23,21 @@ if ($security) {
         <div id="title" class="title">Shakespeare API</div>
         <ul class="head-nav">
         <?php
+            if ($security) {
+        ?>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle"><?= $user_email ?></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="account.php?task=edit">Edit Profile</a></li>
+                        <li><a href="index.php?task=logout">Logout</a></li>
+                    </ul>
+                </li>
+        <?php
+            }
             foreach ($nav_links as $name => $url) {
                 echo "<li><a href=\"$url\">$name</a></li>";
             }
-            ?>
+        ?>
         </ul>
     </div>
     <div class="main-wrapper<?= isset($wrapper_class) ? ' ' . $wrapper_class : ''; ?>">

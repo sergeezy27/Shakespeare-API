@@ -31,6 +31,7 @@ switch($task) {
             $login->values["login_updated"] = lib::nice_date("now", "mysql_timestamp");
             $login->save();
             $_SESSION["user_id"] = $user->get_id_value();
+            $_SESSION["user_email"] = $user->values["user_email"];
             header("Location: home.php");
             exit;
             break;
@@ -45,6 +46,7 @@ switch($task) {
         $user = new user();
         $user->load($get_post["user_email"], "user_email");
         $_SESSION["user_id"] = $user->get_id_value();
+        $_SESSION["user_email"] = $user->values["user_email"];
         
         header("Location: home.php");
         exit;
@@ -79,19 +81,19 @@ switch($task) {
             $user->load($_SESSION["user_id"]);
         
         // Check if user ID exists in the database
-        if (!empty($user->get_id_value())) {
-            header("Location: home.php");
-            exit;
-        } else {
-            // User ID doesn't exist in the database, log them out
-            if (isset($_COOKIE["log_id"])) {
-                setcookie("log_id", "", time() - 3600);
+            if (!empty($user->get_id_value())) {
+                header("Location: home.php");
+                exit;
+            } else {
+                // User ID doesn't exist in the database, log them out
+                if (isset($_COOKIE["log_id"])) {
+                    setcookie("log_id", "", time() - 3600);
+                }
+                session_unset();
+                session_destroy();
+                break;
             }
-            session_unset();
-            session_destroy();
-            break;
         }
-    }
 }
 ?>
 
