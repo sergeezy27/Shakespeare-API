@@ -1,5 +1,4 @@
 <?
-
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -10,6 +9,15 @@ $token = $_GET['token'];
 if(empty($token)) {
     http_response_code(401); // Unauthorized code
     echo json_encode(["error" => "Unauthorized", "message" => "API token is required."]);
+    exit;
+}
+
+$user = new user();
+$user->load($token, "user_api_token");
+
+if(empty($user->get_id_value())) {
+    http_response_code(401); // Unauthorized code
+    echo json_encode(["error" => "Unauthorized", "message" => "API token is invalid."]);
     exit;
 }
 
@@ -71,6 +79,11 @@ $work_id = $_GET['work'];
 $act = $_GET['act'];
 $scene = $_GET['scene'];
 
+$api_access = new api_access();
+$api_access->values["api_user_id"] = $user->get_id_value();
+$api_access->values["api_time_accessed"] = lib::nice_date("now", "mysql_timestamp");
+$api_access->values["api_ip_address"] = $_SERVER["REMOTE_ADDR"];
+
 // if work id is defined
 if(isset($work_id)) {
     $work_id = addslashes($work_id);
@@ -78,15 +91,22 @@ if(isset($work_id)) {
         $act = addslashes($act);
         $scene = addslashes($scene);
         $output = fetchScenesAndActs($work_id, $act, $scene);
+        $api_access->values["api_query"] = "?work=" . $work_id . "&act=" . $act . "&scene=" . $scene;
     }else { // if act and scene are not defined
         $output = fetchScenes($work_id);
+        $api_access->values["api_query"] = "?work=" . $work_id;
     }
 }else { // if work id is not defined
     $output = fetchWorks();
+    $api_access->values["api_query"] = "?";
 }
 
+if(empty($output)) {
+    $api_access->values["api_query"] = "invalid";
+}
+
+$api_access->save();
 http_response_code(200);
 echo json_encode($output);
 exit;
-
 ?>

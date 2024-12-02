@@ -7,7 +7,7 @@ class api_access extends data_operations {
 
     $table = API_TABLE;
     $id_field = "api_id";
-    $id_field_is_ai = false;
+    $id_field_is_ai = true;
     $fields = array(
       "api_user_id",
       "api_time_accessed",
