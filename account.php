@@ -20,6 +20,13 @@ switch($task) {
         // Editing existing user
         if(!empty($user->get_id_value())) {
 
+            // If the user_id from the form doesn't match the user_id of the logged in user
+            if($user->get_id_value() != $_SESSION["user_id"]) {
+                header("Location: account.php?task=edit&err=Something went wrong, please try again.");
+                exit;
+                break;
+            }
+
             // If the user auto completes the email, it also fills out the password field even when hidden
             if(trim($get_post["user_password"]) && !trim($get_post["password_validate"])) {
                 header("Location: account.php?task=edit&err=Something went wrong, please don't auto complete the email field.");
