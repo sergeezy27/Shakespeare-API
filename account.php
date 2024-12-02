@@ -1,7 +1,7 @@
 <? 
 $title = "Shakespeare Account";
 $security = false;
-$wrapper_class = "two-column-layout";
+$wrapper_class = "two-column";
 $nav_links = ["Sign In" => "index.php", "Sign Up" => "account.php"];
 
 require "core/init.php";

@@ -5,7 +5,13 @@ header('Content-Type: application/json; charset=UTF-8');
 
 require_once 'core/init.php';
 
-$work_id = $_GET['token'];
+$token = $_GET['token'];
+
+if(empty($token)) {
+    http_response_code(401); // Unauthorized code
+    echo json_encode(["error" => "Unauthorized", "message" => "API token is required."]);
+    exit;
+}
 
 function fetchWorks() {
     $output = [];
@@ -79,8 +85,8 @@ if(isset($work_id)) {
     $output = fetchWorks();
 }
 
-$json_string = json_encode($output);
-echo $json_string;
+http_response_code(200);
+echo json_encode($output);
 exit;
 
 ?>
