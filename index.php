@@ -6,6 +6,7 @@ $nav_links = ["Sign In" => "index.php", "Sign Up" => "account.php"];
 require "core/SSI/top.php";
 
 $task = $get_post["task"];
+$message = $get_post["message"] ?? null;
 $login = new login();
 
 // Check if login cookie exists and if user exists
@@ -32,6 +33,7 @@ switch($task) {
             $login->save();
             $_SESSION["user_id"] = $user->get_id_value();
             $_SESSION["user_email"] = $user->values["user_email"];
+            setcookie("sess_active", true, time() + 60 * 60 * 24 * 7);
             header("Location: home.php");
             exit;
             break;
@@ -58,7 +60,7 @@ switch($task) {
         if (isset($_COOKIE["log_id"])) {
             setcookie("log_id", "", time() - 3600);
         }
-
+        setcookie("sess_active", false, time() - 3600);
         session_unset();
         session_destroy();
 

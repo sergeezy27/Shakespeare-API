@@ -48,6 +48,9 @@ class login extends data_operations {
       setcookie("log_id", $record_id, $now + 60 * 60 * 24 * 7); // 7 days
     }
 
+    // Cookie to display if session expired
+    setcookie("sess_active", true, $now + 60 * 60 * 24 * 7);
+
     // Return success message
     return null;  // No errors
   }
