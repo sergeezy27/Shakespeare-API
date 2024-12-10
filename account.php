@@ -8,7 +8,7 @@ require "core/init.php";
 
 $task = $get_post["task"];
 $user_id = $get_post["user_id"];
-$notice = "Fill out the form below to sign up for access to the Shakespeare API.";
+$notice = "Fill out the form below to sign up for access to the Shakespeare API.<br>Already have an account? <a class=\"general-link\" href=\"index.php\">Log in here</a>";
 
 switch($task) {
 
@@ -91,10 +91,10 @@ switch($task) {
         exit;
         break;
 
-    case "delete":
+    //case "delete":
 
         // TODO: Delete logic, also choose what happens in the database if user is deleted
-        break;
+        //break;
 
     case "edit":
 

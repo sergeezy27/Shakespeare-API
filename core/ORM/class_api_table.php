@@ -17,10 +17,13 @@ class api_access extends data_operations {
 
     parent::data_operations($table, $id_field, $id_field_is_ai, $fields);
   }
-  static function get_total_hits() {
+  static function get_total_hits($user_id="") {
     $query = "SELECT COUNT(*) as 'count'
-                FROM " . API_TABLE ."
-                WHERE 1";
+                FROM " . API_TABLE . " LEFT JOIN " . USER_TABLE . " ON api_user_id = user_id
+                WHERE 1 ";
+    if(!empty($user_id)) {
+      $query = $query . "AND user_id = " . $user_id;
+    }
     $result = lib::db_query($query);
     while ( $row = $result->fetch_assoc() ) {
       return (int)$row["count"];
@@ -28,10 +31,13 @@ class api_access extends data_operations {
     return 0;
   }
 
-  public static function get_hit_breakdown() {
+  public static function get_hit_breakdown($user_id="") {
     $query = "SELECT api_query
-                FROM " . API_TABLE ."
-                WHERE 1";
+                FROM " . API_TABLE . " LEFT JOIN " . USER_TABLE . " ON api_user_id = user_id
+                WHERE 1 ";
+    if(!empty($user_id)) {
+      $query = $query . "AND user_id = " . $user_id;
+    }
     $result = lib::db_query($query);
     $breakdown = ["works" => 0, "acts_scenes" => 0, "paragraphs" => 0, "invalid" => 0];
 
@@ -59,11 +65,14 @@ class api_access extends data_operations {
     return $breakdown;
 }
 
-  static function get_recent_hit() {
+  static function get_recent_hit($user_id="") {
     $query = "SELECT api_time_accessed 
-              FROM " . API_TABLE . " 
-              ORDER BY api_time_accessed DESC 
-              LIMIT 1";
+              FROM " . API_TABLE . " LEFT JOIN " . USER_TABLE . " ON api_user_id = user_id 
+              WHERE 1 ";
+    if(!empty($user_id)) {
+      $query = $query . "AND user_id = " . $user_id;
+    }
+    $query = $query . " ORDER BY api_time_accessed DESC LIMIT 1";
     $result = lib::db_query($query);
 
     if ($row = $result->fetch_assoc()) {
