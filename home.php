@@ -26,6 +26,7 @@ $api_key = $user->values["user_api_token"];
             </ul>
         </li>
     </ol>
+    <p>For ease of use, try the <a href="list_plays.php">API listing tool</a></p>
 </div>
 
 <div class="home-section account-features">

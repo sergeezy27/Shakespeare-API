@@ -1,5 +1,5 @@
 <? 
-$title = "Shakespeare API";
+$title = "Shakespeare History";
 $security = true;
 $wrapper_class = "center";
 
