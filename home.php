@@ -18,11 +18,11 @@ $api_key = $user->values["user_api_token"];
         <li>Access information about Shakespeare's plays using the following example query strings:
             <ul>
                 <strong>Returns a list of plays:</strong>
-                <li><code>https://csci.lakeforest.edu/~vorobevs/csci488/Shakespeare-API/api.php?token=your_token</code></li>
+                <li><code>https://csci.lakeforest.edu/~vorobevs/csci488/Shakespeare-API/api.php?token=<b>{your_token}</b></code></li>
                 <strong>Returns all acts and scenes from Hamlet:</strong>
-                <li><code>https://csci.lakeforest.edu/~vorobevs/csci488/Shakespeare-API/api.php?token=your_token&work=hamlet</code></li>
+                <li><code>https://csci.lakeforest.edu/~vorobevs/csci488/Shakespeare-API/api.php?token=<b>{your_token}</b>&work=hamlet</code></li>
                 <strong>Returns the script for Hamlet's act one, scene one:</strong>
-                <li><code>https://csci.lakeforest.edu/~vorobevs/csci488/Shakespeare-API/api.php?token=your_token&work=hamlet&act=1&scene=1</code></li>
+                <li><code>https://csci.lakeforest.edu/~vorobevs/csci488/Shakespeare-API/api.php?token=<b>{your_token}</b>&work=hamlet&act=1&scene=1</code></li>
             </ul>
         </li>
     </ol>

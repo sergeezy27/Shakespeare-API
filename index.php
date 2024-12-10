@@ -6,7 +6,7 @@ $nav_links = ["Sign In" => "index.php", "Sign Up" => "account.php"];
 require "core/SSI/top.php";
 
 $task = $get_post["task"];
-$message = $get_post["message"] ?? null;
+$message = $get_post["message"];
 $login = new login();
 
 // Check if login cookie exists and if user exists

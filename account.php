@@ -7,21 +7,26 @@ $nav_links = ["Sign In" => "index.php", "Sign Up" => "account.php"];
 require "core/init.php";
 
 $task = $get_post["task"];
-$user_id = "";
+$user_id = $get_post["user_id"];
 $notice = "Fill out the form below to sign up for access to the Shakespeare API.";
 
 switch($task) {
 
     case "save":
         $user = new user();
-        $user->load_from_form_submit();
         $options = ["cost" => 10];
 
         // Editing existing user
-        if(!empty($user->get_id_value())) {
+        if(!empty($user_id)) {
+
+            $user->load($user_id);
+            $curr_email = $user->values["user_email"];
+            $curr_password = $user->values["user_password"];
+            
+            $user->update_from_form_submit();
 
             // If the user_id from the form doesn't match the user_id of the logged in user
-            if($user->get_id_value() != $_SESSION["user_id"]) {
+            if($user_id != $_SESSION["user_id"]) {
                 header("Location: account.php?task=edit&err=Something went wrong, please try again.");
                 exit;
                 break;
@@ -41,26 +46,27 @@ switch($task) {
                 exit;
                 break;
             }
-
-            // Populating existing fields, otherwise save() will update them to ''
-            $old_user = new user();
-            $old_user->load($user->get_id_value());
             
             if($get_post["change_password"] == "yes") {
                 $user->values["user_password"] = password_hash($user->values["user_password"], PASSWORD_BCRYPT, $options);
             }else {
-                $user->values["user_password"] = $old_user->values["user_password"];
+                $user->values["user_password"] = $curr_password;
             }
-            $user->values["user_time_created"] = $old_user->values["user_time_created"];
-            $user->values["user_ip_address"] = $old_user->values["user_ip_address"];
-            $user->values["user_api_token"] = $old_user->values["user_api_token"];
             $user->save();
+
+            // If user changed their email, update session user_email
+            if($curr_email != $user->values["user_email"]) {
+                $_SESSION["user_email"] = $user->values["user_email"];
+            }
 
             header("Location: home.php");
             exit;
             break;
         }
-        // End of editing, back to saving a new user
+        // End of editing
+
+        // Saving a new user
+        $user->load_from_form_submit();
 
         // Validation
         $validation = $user->validate($get_post['password_validate']);
