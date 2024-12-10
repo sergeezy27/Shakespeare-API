@@ -120,13 +120,18 @@ Login and Sign Up
 }
 
 .logout-message {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 26pt;
+  font-size: 20pt;
   text-align: center;
-  font-weight: 500;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 80%;
+  max-width: 600px;
 }
 
 .shakespeare-svg {

@@ -29,12 +29,22 @@ class user extends data_operations {
 
     // Check if any of the fields are empty
     if(!$this->values['user_fname'] || !$this->values['user_lname'] || !$this->values['user_email']) {
-      return "One of the fields is empty, please provide a name and email";
+      return "One of the fields is empty, please provide a name and email.";
     }
 
     // Check if the first and last name are at least 2 characters
     if (strlen($this->values['user_fname']) < 2 || strlen($this->values['user_lname']) < 2) {
       return "Your first and last name must be at least 2 characters long.";
+    }
+
+    // Check if the first and last name are at most 100 characters
+    if (strlen($this->values['user_fname']) > 100 || strlen($this->values['user_lname']) > 100) {
+      return "Your first or last name are too long, please try again.";
+    }
+
+    // Check if the email is at most 320 characters
+    if (strlen($this->values['user_email']) > 320) {
+      return "Your email is too long, please try again.";
     }
 
     // Check if email format is valid
