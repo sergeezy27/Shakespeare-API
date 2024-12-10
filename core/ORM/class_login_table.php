@@ -45,11 +45,14 @@ class login extends data_operations {
 
     // Handle "Remember me" functionality
     if ($remember_me) {
-      setcookie("log_id", $record_id, $now + 60 * 60 * 24 * 7); // 7 days
+      setcookie("remember_me_id", $record_id, $now + REMEMBER_ME_TIME);
     }
 
+    setcookie("login_id", $record_id, $now + LOGIN_TIME);
     // Cookie to display if session expired
-    setcookie("sess_active", true, $now + 60 * 60 * 24 * 7);
+    setcookie("sess_active", true, $now + REMEMBER_ME_TIME);
+    $_SESSION["user_id"] = $user->get_id_value();
+    $_SESSION["user_email"] = $user->values["user_email"];
 
     // Return success message
     return null;  // No errors

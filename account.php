@@ -9,6 +9,7 @@ require "core/init.php";
 $task = $get_post["task"];
 $user_id = $get_post["user_id"];
 $notice = "Fill out the form below to sign up for access to the Shakespeare API.<br>Already have an account? <a class=\"general-link\" href=\"index.php\">Log in here</a>";
+$now = time();
 
 switch($task) {
 
@@ -34,7 +35,7 @@ switch($task) {
 
             // If the user auto completes the email, it also fills out the password field even when hidden
             if(trim($get_post["user_password"]) && !trim($get_post["password_validate"])) {
-                header("Location: account.php?task=edit&err=Something went wrong, please don't auto complete the email field.");
+                header("Location: account.php?task=edit&err=Something went wrong, please make sure both password fields are complete.");
                 exit;
                 break;
             }
@@ -65,6 +66,11 @@ switch($task) {
         }
         // End of editing
 
+        // Can't save without editing if you're already logged in
+        if(isset($_COOKIE["login_id"])) {
+            header("Location: home.php");
+        }
+
         // Saving a new user
         $user->load_from_form_submit();
 
@@ -77,16 +83,13 @@ switch($task) {
 
         $user->values["user_password"] = password_hash($user->values["user_password"], PASSWORD_BCRYPT, $options);
         $user->values["user_ip_address"] = $_SERVER["REMOTE_ADDR"];
-        $user->values["user_api_token"] = hash("sha256", $user->values["user_email"] . time());
+        $user->values["user_api_token"] = hash("sha256", $user->values["user_email"] . $now);
         $user->values["user_time_created"] = lib::nice_date("now", "mysql_timestamp");
         $user->save();
       
         // Login after sign-up
         $login = new login();
         $login->login_user($get_post["user_email"], $get_post["user_password"], false);
-        $user->load($get_post["user_email"], "user_email");
-        $_SESSION["user_id"] = $user->get_id_value();
-        $_SESSION["user_email"] = $user->values["user_email"];
         header("Location: home.php");
         exit;
         break;
@@ -115,7 +118,7 @@ switch($task) {
 
     default:
         // If already signed in
-        if(isset($_SESSION["user_id"])) {
+        if(isset($_COOKIE["login_id"])) {
             header("Location: home.php");
             exit;
         }
