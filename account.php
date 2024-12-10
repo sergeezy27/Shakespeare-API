@@ -132,17 +132,7 @@ require "core/SSI/top.php";
             passwordField.value = '';
             confirmPasswordField.value = '';
         }
-
-    function confirmDelete() {
-        let confirmed = confirm("Are you sure you want to delete your account? This action cannot be undone.");
-        if (confirmed) {
-            let form = document.querySelector('.account-form');
-            let taskInput = form.querySelector('input[name="task"]');
-            taskInput.value = "delete";
-            form.submit();
-        }
     }
-}
 </script>
 
 <div class="left-column" style="flex-direction: column; align-items: center;">
@@ -185,7 +175,7 @@ require "core/SSI/top.php";
         <? if(!empty($user_id)) { ?>
             <div class="form-actions">
                 <button type="submit">Save Changes</button>
-                <button type="button" class="delete-button" onclick="confirmDelete()">Delete Account</button>
+                <button type="button" class="delete-button" onclick="confirmDelete()" hidden>Delete Account</button>
             </div>
         <? }else { ?>
             <button type="submit">Create Account</button>

@@ -254,6 +254,78 @@ Home Page
 }
 
 /****************************************************************************
+Analytics and History
+****************************************************************************/
+
+.analytics-page, .history-page {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.analytics-page h2, .history-page h2 {
+  font-size: 18pt;
+  font-weight: bold;
+  color: #6d8e72;
+}
+
+.analytics-page p, .history-page p {
+  font-size: 12pt;
+  color: #1f1f1f;
+}
+
+.analytics-page ul li, .history-page ul li {
+  margin-bottom: 5px;
+  font-size: 11pt;
+  color: #1f1f1f;
+}
+
+.table-title {
+  font-size: 20pt;
+  font-weight: bold;
+  color: #6d8e72;
+  margin: 3px 0;
+}
+
+.even-row-css {
+  background-color: #f0f8f7;
+  font-size: 11pt;
+  color: #333333;
+}
+
+.odd-row-css {
+  background-color: #e8f5e9;
+  font-size: 11pt;
+  color: #333333;
+}
+
+.highlight-css {
+  background-color: #f9dce1;
+  font-size: 11pt;
+  color: #1f1f1f;
+}
+
+tbody th {
+  text-align: left;
+  background-color: #6d8e72;
+  padding: 10px;
+  font-size: 12pt;
+  font-weight: bold;
+}
+
+tbody th a {
+  color: #f9f9f9;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+tbody th a:hover {
+  text-decoration: none;
+}
+
+/****************************************************************************
 SSI Specific
 ****************************************************************************/
 
@@ -269,6 +341,7 @@ SSI Specific
   justify-content: space-between;
   padding: 0 26px 8px;
   box-sizing: border-box;
+  white-space: nowrap; /* Header creates a second line if the user makes the screen too small */
 }
 
 /* Title */
