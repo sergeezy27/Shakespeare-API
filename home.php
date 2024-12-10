@@ -33,7 +33,7 @@ $api_key = $user->values["user_api_token"];
     <h2>Account Management</h2>
     <p>Use the navigation bar above to:</p>
     <ul>
-        <li><a href="account.php"><strong>Edit Your Account:</strong></a> Update your personal details and preferences.</li>
+        <li><a href="account.php?task=edit"><strong>Edit Your Account:</strong></a> Update your personal details and preferences.</li>
         <li><a href="history.php"><strong>View Login History:</strong></a> See your recent login activity for security purposes.</li>
         <li><a href="analytics.php"><strong>API Analytics:</strong></a> Monitor your API usage and performance metrics.</li>
     </ul>
